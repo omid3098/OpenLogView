@@ -22,10 +22,24 @@ namespace OpenLogView
                     return;
                 }
             }
+            if (terminal.config.holdShift)
+            {
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                {
+                    CheckKey();
+                }
+            }
+            else
+            {
+                CheckKey();
+            }
+        }
+
+        private void CheckKey()
+        {
             if (Input.GetKeyDown(terminal.config.logHotkey))
             {
                 terminal.ToggleLogView();
-                return;
             }
         }
 

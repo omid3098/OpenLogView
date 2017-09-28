@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: ZSH
   m_EditorClassIdentifier: 
   logHotkey: 96
+  holdShift: 1
   mobileTouchCount: 4
   arrow: '>'
   backslash: 

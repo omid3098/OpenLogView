@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d9b1fac0c818946a858d58d3dddfc3, type: 3}
+  m_Name: ZSH
+  m_EditorClassIdentifier: 
+  logHotkey: 96
+  mobileTouchCount: 4
+  arrow: '>'
+  backslash: 
+  console: 
+  font: {fileID: 12800000, guid: 1a32c30d99b6e784687c5a903045cb10, type: 3}
+  infoColor: {r: 0.8014706, g: 0.8014706, b: 0.8014706, a: 1}
+  warnColor: {r: 1, g: 0.9961176, b: 0.029411793, a: 1}
+  errorColor: {r: 1, g: 0.102941155, b: 0.102941155, a: 1}

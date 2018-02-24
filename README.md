@@ -1,6 +1,15 @@
 # OpenLogView
 an opensource runtime log viewer for unity.
 
+## Platforms:
+ - Android
+ - IOS
+ - StandAlone : Linux,Windows,OSX
+
+## Features:
+ - View game logs in runtime without needing Unity Editor
+ - Share logs with support email (Share button)
+
 ## How to use:
  - clone this repository and put OpenLogView folder inside your project:
 

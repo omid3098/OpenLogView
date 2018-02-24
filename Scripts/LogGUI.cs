@@ -44,6 +44,10 @@ namespace OpenLogView
             {
                 logView.Hide();
             }
+            if (GUILayout.Button("share", buttonStyle))
+            {
+                logView.Share();
+            }
             GUILayout.EndHorizontal();
             GUILayout.Label(logView.history + logView.consoleLine + logView.inputText, logStyle);
         }

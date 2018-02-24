@@ -18,4 +18,8 @@ public class LogConfig : ScriptableObject
     public Color infoColor;
     public Color warnColor;
     public Color errorColor;
+    [Space]
+    [Header("Report Setting")]
+    public string supportEmail;
+    public string EmailTitle;
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class LogConfig : ScriptableObject
 {
+    // [Header("General Config")]
     [Header("PC Config")]
     public KeyCode logHotkey;
     public bool holdShift;

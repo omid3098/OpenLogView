@@ -14,14 +14,13 @@ namespace OpenLogView
         }
         public void Update()
         {
-            if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+#if UNITY_ANDROID || UNITY_IOS
+            if (MobileInput())
             {
-                if (MobileInput())
-                {
-                    terminal.ToggleLogView();
-                    return;
-                }
+                terminal.ToggleLogView();
+                return;
             }
+#elif UNITY_EDITOR || UNITY_STANDALONE
             if (terminal.config.holdShift)
             {
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -33,6 +32,7 @@ namespace OpenLogView
             {
                 CheckKey();
             }
+#endif
         }
 
         private void CheckKey()

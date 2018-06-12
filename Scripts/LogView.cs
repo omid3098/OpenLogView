@@ -11,18 +11,28 @@
     {
         [SerializeField] public LogConfig config;
         public bool displayLogView { get; private set; }
-        public string inputText { get; private set; }
-        public string history { get; private set; }
+        public List<LogType> logTypes { get; private set; }
+        public List<string> logTitles { get; private set; }
+        public List<string> logStacks { get; private set; }
+        // public string inputText { get; private set; }
+        // public string history { get; private set; }
         public string consoleLine { get { return (config.console + config.backslash + config.arrow + " "); } }
         private LogInputHandler inputHandler;
         private LogGUI logGui;
-        private string infoColor;
-        private string warnColor;
-        private string errorColor;
+        public string infoColor { get; private set; }
+        public string warnColor { get; private set; }
+        public string errorColor { get; private set; }
         public TouchScreenKeyboard touchScreenKeyboard;
-
+        public static string Clipboard
+        {
+            get { return GUIUtility.systemCopyBuffer; }
+            set { GUIUtility.systemCopyBuffer = value; }
+        }
         void Awake()
         {
+            logTypes = new List<LogType>();
+            logTitles = new List<string>();
+            logStacks = new List<string>();
             DontDestroyOnLoad(this);
             if (config == null) config = Resources.Load<LogConfig>("Config/ZSH");
             if (config.mobileTouchCount <= 0) config.mobileTouchCount = 4;
@@ -45,21 +55,24 @@
 
         private void HandleLog(string logString, string stackTrace, LogType type)
         {
-            string logType = "";
-            switch (type)
-            {
-                case LogType.Log:
-                    logType = string.Format("<color=#{0}>i:</color>", infoColor);
-                    break;
-                case LogType.Warning:
-                    logType = string.Format("<color=#{0}>w:</color>", warnColor);
-                    break;
-                case LogType.Error:
-                case LogType.Assert:
-                    logType = string.Format("<color=#{0}>e:</color>", errorColor);
-                    break;
-            }
-            inputText += logType + " " + logString + '\n' + consoleLine;
+            logTypes.Add(type);
+            logTitles.Add(logString);
+            logStacks.Add(stackTrace);
+            // string logType = "";
+            // switch (type)
+            // {
+            //     case LogType.Log:
+            //         logType = string.Format("<color=#{0}>i:</color>", infoColor);
+            //         break;
+            //     case LogType.Warning:
+            //         logType = string.Format("<color=#{0}>w:</color>", warnColor);
+            //         break;
+            //     case LogType.Error:
+            //     case LogType.Assert:
+            //         logType = string.Format("<color=#{0}>e:</color>", errorColor);
+            //         break;
+            // }
+            // inputText += logType + " " + logString + '\n' + consoleLine;
         }
 
         internal void Hide()
@@ -86,26 +99,31 @@
         private IEnumerator ClearLogCoroutine()
         {
             yield return new WaitForEndOfFrame();
-            inputText = "";
+            logTypes.Clear();
+            logTitles.Clear();
+            logStacks.Clear();
+            // inputText = "";
         }
 
         internal void ToggleLogView()
         {
             displayLogView = !displayLogView;
         }
-
-        internal void OnBackSpacePressed()
-        {
-            if (inputText.Length >= 1) inputText = inputText.Substring(0, inputText.Length - 1);
-        }
-
         public void Share()
         {
             Debug.Log("Sharing Log...");
             // #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_IOS
             // if standalone editor or ios, send email
-            var result = Regex.Replace(inputText, @"<[^>]*>", String.Empty);
-            Application.OpenURL("mailto:" + config.supportEmail + "?subject=" + config.EmailTitle + "&body=" + MyEscapeURL(result));
+            string _result = "";
+            for (int i = 0; i < logTypes.Count; i++)
+            {
+                _result += logTypes[i] + " : ";
+                _result += logTitles[i] + "\n";
+                _result += logStacks[i] + "\n";
+            }
+            // var result = Regex.Replace(inputText, @"<[^>]*>", String.Empty);
+            Clipboard = _result;
+            Application.OpenURL("mailto:" + config.supportEmail + "?subject=" + config.EmailTitle + "&body=" + MyEscapeURL(_result));
             //execute the below lines if being run on a Android device
             // #elif UNITY_ANDROID
             //             Debug.Log("Android Platform");
